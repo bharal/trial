@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cupid Courier — Are You Ready for Love?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a0a2e;
+    --bg2: #240d3d;
+    --pink: #ff4d8d;
+    --hot: #ff2271;
+    --coral: #ff7b54;
+    --lavender: #c084fc;
+    --mint: #67e8c4;
+    --text: #fff0f8;
+    --muted: #c4a8d4;
+    --card: rgba(255,255,255,0.05);
+    --card-border: rgba(255,77,141,0.2);
+    --card-hover: rgba(255,77,141,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='18'%3E💋%3C/text%3E%3C/svg%3E") 12 12, auto;
+  }
+
+  /* FLOATING HEARTS BG */
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .heart-float {
+    position: absolute;
+    bottom: -50px;
+    font-size: 1.2rem;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.15; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* MESH GRADIENT */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 50%, rgba(192,132,252,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 20%, rgba(255,77,141,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(255,123,84,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  .site-header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3.5rem 2rem 2rem;
+  }
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,77,141,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(255,77,141,0); }
+  }
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, var(--pink) 50%, var(--lavender) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .brand em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .tagline {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .tagline strong { color: var(--pink); font-weight: 500; }
+
+  /* PROGRESS */
+  .progress-container {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 1.5rem auto 0;
+    padding: 0 2rem;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+  .progress-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .progress-emoji { font-size: 1rem; transition: all 0.3s; }
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--coral), var(--lavender));
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '💘';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    filter: drop-shadow(0 0 6px rgba(255,77,141,0.8));
+  }
+
+  /* QUESTIONNAIRE WRAPPER */
+  .questionnaire {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 5rem;
+  }
+
+  /* INTRO CARD */
+  .intro-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    top: -40%; left: -20%;
+    width: 60%; height: 200%;
+    background: linear-gradient(135deg, rgba(255,77,141,0.05), transparent);
+    transform: rotate(-15deg);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .intro-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .intro-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+  .intro-card h2 em { font-style: italic; color: var(--pink); }
+  .intro-card p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  .intro-card p strong { color: var(--lavender); font-weight: 500; }
+
+  /* QUESTION CARDS */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.25rem;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .question-card:hover {
+    border-color: rgba(255,77,141,0.35);
+    box-shadow: 0 8px 32px rgba(255,77,141,0.08);
+  }
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .question-card:nth-child(1)  { animation-delay: 0.05s; }
+  .question-card:nth-child(2)  { animation-delay: 0.1s; }
+  .question-card:nth-child(3)  { animation-delay: 0.15s; }
+  .question-card:nth-child(4)  { animation-delay: 0.2s; }
+  .question-card:nth-child(5)  { animation-delay: 0.25s; }
+  .question-card:nth-child(6)  { animation-delay: 0.3s; }
+  .question-card:nth-child(7)  { animation-delay: 0.35s; }
+  .question-card:nth-child(8)  { animation-delay: 0.4s; }
+  .question-card:nth-child(9)  { animation-delay: 0.45s; }
+  .question-card:nth-child(10) { animation-delay: 0.5s; }
+  
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .q-number {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pink);
+    background: rgba(255,77,141,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+  .q-science-tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lavender);
+    background: rgba(192,132,252,0.1);
+    border: 1px solid rgba(192,132,252,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .question-science {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+    padding: 0.65rem 0.9rem;
+    background: rgba(192,132,252,0.05);
+    border-left: 2px solid rgba(192,132,252,0.3);
+    border-radius: 0 6px 6px 0;
+  }
+  .question-science::before {
+    content: '🔬 ';
+    font-style: normal;
+  }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    cursor: pointer;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .option-label::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,77,141,0.06), rgba(255,123,84,0.04));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .option-label:hover {
+    border-color: rgba(255,77,141,0.4);
+    transform: translateX(4px);
+  }
+  .option-label:hover::before { opacity: 1; }
+  .option-label:has(input:checked) {
+    border-color: var(--pink);
+    background: rgba(255,77,141,0.08);
+    transform: translateX(6px);
+    box-shadow: 0 0 0 1px rgba(255,77,141,0.2), 0 4px 16px rgba(255,77,141,0.1);
+  }
+
+  .option-label input[type="radio"],
+  .option-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    margin-top: 1px;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+  }
+  .option-label input[type="checkbox"] { border-radius: 5px; }
+  .option-label input:checked {
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    border-color: var(--pink);
+    transform: scale(1.15);
+    box-shadow: 0 0 8px rgba(255,77,141,0.5);
+  }
+  .option-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: white;
+  }
+  .option-label input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -52%);
+    font-size: 11px;
+    color: white;
+    font-weight: 700;
+  }
+  .option-emoji {
+    font-size: 1rem;
+    min-width: 1.2rem;
+    margin-top: 1px;
+  }
+  .option-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: rgba(255,240,248,0.85);
+    position: relative;
+  }
+
+  /* SCALE */
+  .scale-container { padding: 0.25rem 0; }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+    font-style: italic;
+  }
+  .scale-options { display: flex; gap: 0.4rem; }
+  .scale-option { flex: 1; }
+  .scale-option input { display: none; }
+  .scale-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    border: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--muted);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  .scale-option label:hover {
+    border-color: rgba(255,77,141,0.4);
+    color: var(--pink);
+    transform: translateY(-2px);
+  }
+  .scale-option input:checked + label {
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    border-color: transparent;
+    color: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255,77,141,0.35);
+  }
+
+  /* SUBMIT */
+  .submit-section {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    color: white;
+    border: none;
+    padding: 1.1rem 3rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(255,77,141,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  .submit-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 16px 40px rgba(255,77,141,0.45);
+  }
+  .submit-btn:hover::before { left: 100%; }
+  .submit-btn:active { transform: translateY(0) scale(0.98); }
+  .submit-note {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* COMPLETION */
+  .completion {
+    display: none;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .completion-hearts {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: heartBeat 1s ease-in-out infinite;
+  }
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+  }
+  .completion h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .completion p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    max-width: 440px;
+    margin: 0 auto 1.5rem;
+  }
+  .completion-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(255,77,141,0.15), rgba(192,132,252,0.15));
+    border: 1px solid rgba(255,77,141,0.3);
+    color: var(--pink);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .question-card { padding: 1.5rem; }
+    .intro-card { padding: 1.75rem; }
+    .questionnaire { padding: 1.5rem 1rem 4rem; }
+    .scale-option label { height: 38px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<header class="site-header">
+  <div class="header-badge">💘 Season 2 — Now Open</div>
+  <div class="brand">Cupid <em>Courier</em></div>
+  <div class="tagline">30 cheeky questions. <strong>One perfect match.</strong> Science said so. 💅</div>
+</header>
+
+<div class="progress-container">
+  <div class="progress-meta">
+    <span class="progress-label">Your love profile</span>
+    <span class="progress-emoji" id="progress-emoji">🤍</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+</div>
+
+<div class="questionnaire" id="questionnaire-form">
+
+  <div class="intro-card">
+    <span class="intro-icon">💌</span>
+    <h2>Let's get <em>personal</em>, shall we?</h2>
+    <p>No fluff, no vague vibes — just <strong>15 science-backed questions</strong> designed to figure out what makes you tick (and who you'd tick with). Each question has real research behind it, because love is too important to leave to a cheesy algorithm. Answer honestly. Your soulmate is probably doing this right now too. 👀</p>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">01</span>
+      <span class="q-science-tag">Big Five Personality</span>
+    </div>
+    <div class="question-text">After a week of back-to-back people, your idea of a perfect Friday night is…</div>
+    <div class="question-science">Introversion/extraversion (Costa & McCrae, 1992) isn't about being shy — it's about where you get your energy. Partners with wildly different social needs often end up resenting each other's weekends.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q1" value="a"><span class="option-emoji">🛁</span><span class="option-text">Candles, silence, possibly a bath. No one is allowed in.</span></label>
+      <label class="option-label"><input type="radio" name="q1" value="b"><span class="option-emoji">🍷</span><span class="option-text">Dinner with two or three people I actually like</span></label>
+      <label class="option-label"><input type="radio" name="q1" value="c"><span class="option-emoji">🎲</span><span class="option-text">Depends entirely on my mood, honestly</span></label>
+      <label class="option-label"><input type="radio" name="q1" value="d"><span class="option-emoji">🎉</span><span class="option-text">A packed room and someone new to talk to — this is how I refuel</span></label>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">02</span>
+      <span class="q-science-tag">Attachment Theory</span>
+    </div>
+    <div class="question-text">Be honest: what's your love style when things get serious?</div>
+    <div class="question-science">Hazan & Shaver (1987) found that how we attached to caregivers as children shapes how we love as adults — secure, anxious, or avoidant. Spoiler: secure + secure = the good stuff.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q2" value="a"><span class="option-emoji">😌</span><span class="option-text">Pretty chill — I trust easily and don't spiral when they don't text back</span></label>
+      <label class="option-label"><input type="radio" name="q2" value="b"><span class="option-emoji">😬</span><span class="option-text">I can overthink a "k." for 45 minutes. I own it.</span></label>
+      <label class="option-label"><input type="radio" name="q2" value="c"><span class="option-emoji">🦔</span><span class="option-text">I like closeness but I need my space too — don't crowd me</span></label>
+      <label class="option-label"><input type="radio" name="q2" value="d"><span class="option-emoji">🎢</span><span class="option-text">Complicated — I want deep connection but it also terrifies me a little</span></label>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">03</span>
+      <span class="q-science-tag">Love Languages</span>
+    </div>
+    <div class="question-text">You're crazy about someone. What do you do about it?</div>
+    <div class="question-science">Chapman's Love Language model shows that how you give love often differs from how you need to receive it — and mismatched styles lead to feeling unloved even in happy relationships. Worth knowing upfront.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q3" value="a"><span class="option-emoji">💬</span><span class="option-text">You'll hear about it. At length. Poetically, if necessary.</span></label>
+      <label class="option-label"><input type="radio" name="q3" value="b"><span class="option-emoji">📵</span><span class="option-text">Phone face-down, full attention — my time is my love language</span></label>
+      <label class="option-label"><input type="radio" name="q3" value="c"><span class="option-emoji">🤗</span><span class="option-text">Hugs, hand-holding, casual touches — I'm very tactile</span></label>
+      <label class="option-label"><input type="radio" name="q3" value="d"><span class="option-emoji">🔧</span><span class="option-text">I'll fix your flat tyre, pick up your dry cleaning. Acts of service, baby.</span></label>
+      <label class="option-label"><input type="radio" name="q3" value="e"><span class="option-emoji">🎁</span><span class="option-text">A perfectly chosen, absurdly thoughtful gift that shows I was listening</span></label>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">04</span>
+      <span class="q-science-tag">Values Alignment</span>
+    </div>
+    <div class="question-text">Where does faith or spirituality sit in your life?</div>
+    <div class="question-science">Lichter & Carmalt (2009) found that shared spiritual values predict marital stability more strongly than shared income, education, or even personality — so this one matters more than you might expect.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q4" value="a"><span class="option-emoji">🙏</span><span class="option-text">Central — my faith is woven into how I live every day</span></label>
+      <label class="option-label"><input type="radio" name="q4" value="b"><span class="option-emoji">🕊️</span><span class="option-text">Cultural — I identify with a tradition but take it at my own pace</span></label>
+      <label class="option-label"><input type="radio" name="q4" value="c"><span class="option-emoji">✨</span><span class="option-text">Spiritual but secular — I have beliefs, they're just not tied to a building</span></label>
+      <label class="option-label"><input type="radio" name="q4" value="d"><span class="option-emoji">🧠</span><span class="option-text">I live by reason and ethics — philosophy over prayer</span></label>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">05</span>
+      <span class="q-science-tag">Conflict Resolution</span>
+    </div>
+    <div class="question-text">You two have hit a bump. Your instinct is to…</div>
+    <div class="question-science">Gottman spent 40 years studying couples and found that it's not conflict that kills relationships — it's contempt and stonewalling. How you fight is basically your relationship's credit score.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q5" value="a"><span class="option-emoji">⚡</span><span class="option-text">Tackle it now — awkward silence is worse than an awkward conversation</span></label>
+      <label class="option-label"><input type="radio" name="q5" value="b"><span class="option-emoji">☕</span><span class="option-text">Take a breath, then come back to it calmly when ready</span></label>
+      <label class="option-label"><input type="radio" name="q5" value="c"><span class="option-emoji">👂</span><span class="option-text">Understand their side fully before I open my mouth</span></label>
+      <label class="option-label"><input type="radio" name="q5" value="d"><span class="option-emoji">🌊</span><span class="option-text">Let the small stuff wash over me — pick battles wisely</span></label>
+    </div>
+  </div>
+
+  <!-- Q6 SCALE -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">06</span>
+      <span class="q-science-tag">Lifestyle Compatibility</span>
+    </div>
+    <div class="question-text">Career ambition: where are you on the scale right now?</div>
+    <div class="question-science">Becker & Moen (1999) showed that mismatched ambition — particularly around hours, relocation, and travel — quietly becomes one of the biggest sources of friction for professional couples in their 30s and 40s.</div>
+    <div class="scale-container">
+      <div class="scale-labels"><span>😌 Happy where I am</span><span>🚀 Absolutely gunning for it</span></div>
+      <div class="scale-options">
+        <div class="scale-option"><input type="radio" name="q6" id="q6-1" value="1"><label for="q6-1">1</label></div>
+        <div class="scale-option"><input type="radio" name="q6" id="q6-2" value="2"><label for="q6-2">2</label></div>
+        <div class="scale-option"><input type="radio" name="q6" id="q6-3" value="3"><label for="q6-3">3</label></div>
+        <div class="scale-option"><input type="radio" name="q6" id="q6-4" value="4"><label for="q6-4">4</label></div>
+        <div class="scale-option"><input type="radio" name="q6" id="q6-5" value="5"><label for="q6-5">5</label></div>
+        <div class="scale-option"><input type="radio" name="q6" id="q6-6" value="6"><label for="q6-6">6</label></div>
+        <div class="scale-option"><input type="radio" name="q6" id="q6-7" value="7"><label for="q6-7">7</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">07</span>
+      <span class="q-science-tag">Family & Future</span>
+    </div>
+    <div class="question-text">The kids question. Let's get it out of the way.</div>
+    <div class="question-science">This one's non-negotiable territory. Relationship science is pretty clear: differing intentions around children are one of the few mismatches where compromise rarely leads to long-term happiness. Be honest here — it matters.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q7" value="a"><span class="option-emoji">👶</span><span class="option-text">100% yes — kids are part of my picture</span></label>
+      <label class="option-label"><input type="radio" name="q7" value="b"><span class="option-emoji">🤔</span><span class="option-text">Open to it, but not certain yet</span></label>
+      <label class="option-label"><input type="radio" name="q7" value="c"><span class="option-emoji">💫</span><span class="option-text">Genuinely either way — it would depend on the relationship</span></label>
+      <label class="option-label"><input type="radio" name="q7" value="d"><span class="option-emoji">🌿</span><span class="option-text">Leaning no — not really seeing it for myself</span></label>
+      <label class="option-label"><input type="radio" name="q7" value="e"><span class="option-emoji">🙅</span><span class="option-text">Definitely not — and I'm very at peace with that</span></label>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">08</span>
+      <span class="q-science-tag">Emotional Intelligence</span>
+    </div>
+    <div class="question-text">Your person is having a rough time. You instinctively…</div>
+    <div class="question-science">Maisel & Gable (2009) found that how people respond to a partner's vulnerability — not just the good news — is what actually determines whether someone feels truly known and loved.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q8" value="a"><span class="option-emoji">🪞</span><span class="option-text">Listen deeply and reflect their feelings back to them</span></label>
+      <label class="option-label"><input type="radio" name="q8" value="b"><span class="option-emoji">🛠️</span><span class="option-text">Go into fix-it mode — give me the problem, I'll find the solution</span></label>
+      <label class="option-label"><input type="radio" name="q8" value="c"><span class="option-emoji">🤝</span><span class="option-text">Just sit with them. No agenda. Just present.</span></label>
+      <label class="option-label"><input type="radio" name="q8" value="d"><span class="option-emoji">🎬</span><span class="option-text">Distract them — let's watch something silly and laugh it out</span></label>
+    </div>
+  </div>
+
+  <!-- Q9 SCALE -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">09</span>
+      <span class="q-science-tag">Openness to Experience</span>
+    </div>
+    <div class="question-text">How much of a "yes, and?" person are you in life?</div>
+    <div class="question-science">Openness to Experience (Big Five) predicts whether two people grow in the same direction over time. High-openness and low-openness partners often look like different species by year five.</div>
+    <div class="scale-container">
+      <div class="scale-labels"><span>🏡 My routine is my love language</span><span>🌍 I said yes before you finished the sentence</span></div>
+      <div class="scale-options">
+        <div class="scale-option"><input type="radio" name="q9" id="q9-1" value="1"><label for="q9-1">1</label></div>
+        <div class="scale-option"><input type="radio" name="q9" id="q9-2" value="2"><label for="q9-2">2</label></div>
+        <div class="scale-option"><input type="radio" name="q9" id="q9-3" value="3"><label for="q9-3">3</label></div>
+        <div class="scale-option"><input type="radio" name="q9" id="q9-4" value="4"><label for="q9-4">4</label></div>
+        <div class="scale-option"><input type="radio" name="q9" id="q9-5" value="5"><label for="q9-5">5</label></div>
+        <div class="scale-option"><input type="radio" name="q9" id="q9-6" value="6"><label for="q9-6">6</label></div>
+        <div class="scale-option"><input type="radio" name="q9" id="q9-7" value="7"><label for="q9-7">7</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">10</span>
+      <span class="q-science-tag">Financial Values</span>
+    </div>
+    <div class="question-text">Money talk. How do you roll with it?</div>
+    <div class="question-science">Dew, Britt & Huston (2012) found that financial disagreements are the single strongest predictor of divorce — beating arguments about children, in-laws, and intimacy combined. It's not about income. It's about attitude.</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q10" value="a"><span class="option-emoji">🏦</span><span class="option-text">Safety first — ISAs, pension sorted, emergency fund immaculate</span></label>
+      <label class="option-label"><input type="radio" name="q10" value="b"><span class="option-emoji">⚖️</span><span class="option-text">Balanced — I save sensibly but also treat myself without guilt</span></label>
+      <label class="option-label"><input type="radio" name="q10" value="c"><span class="option-emoji">✈️</span><span class="option-text">Money is for experiences — I'd rather have stories than savings</span></label>
+      <label class="option-label"><input type="radio" name="q10" value="d"><span class="option-emoji">📈</span><span class="option-text">Risk-tolerant and growth-minded — calculated bets, big picture</span></label>
+    </div>
+  </div>
+
+
+  <!-- SUBMIT -->
+  <div class="submit-section" id="submit-section">
+    <button class="submit-btn" onclick="handleSubmit()">
+      <span>💘 Find My Match</span>
+    </button>
+    <div class="submit-note">Your answers are private. We don't share them — we just use them to find your person.</div>
+  </div>
+
+  <!-- COMPLETION -->
+  <div class="completion" id="completion-card">
+    <span class="completion-hearts">💘</span>
+    <h2>You're officially in the running.</h2>
+    <p>Your love profile is complete and looking absolutely gorgeous, if we do say so. Our team will now match your answers against the other hopeless romantics in our database. We'll be in touch very soon. 💌</p>
+    <span class="completion-badge">✨ Profile complete — 30 / 30</span>
+  </div>
+
+</div>
+
+<script>
+  // Floating hearts
+  const heartsEl = document.getElementById('hearts-bg');
+  const heartEmojis = ['💕','💗','💖','💝','✨','💫','🌸','💞','❤️','🩷'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.left = Math.random() * 100 + '%';
+    h.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    h.style.animationDuration = (8 + Math.random() * 12) + 's';
+    h.style.animationDelay = (Math.random() * 10) + 's';
+    heartsEl.appendChild(h);
+  }
+
+  // Progress
+  const fill = document.getElementById('progress-fill');
+  const emoji = document.getElementById('progress-emoji');
+  const progressEmojis = ['🤍','🩷','💗','💖','💕','💝','💘','❤️‍🔥','💞','💑','✨'];
+  const totalQuestions = 10;
+
+  function updateProgress() {
+    let answered = 0;
+    for (let i = 1; i <= totalQuestions; i++) {
+      if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+    }
+    const pct = Math.round((answered / totalQuestions) * 100);
+    fill.style.width = pct + '%';
+    const idx = Math.floor((answered / totalQuestions) * (progressEmojis.length - 1));
+    emoji.textContent = progressEmojis[idx];
+  }
+
+  document.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.addEventListener('change', () => {
+      updateProgress();
+      // Mini heart burst on selection
+      const label = input.closest('.option-label') || input.closest('.scale-option');
+      if (label) {
+        const burst = document.createElement('span');
+        burst.textContent = '💗';
+        burst.style.cssText = `position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:0.9rem;animation:fadeOut 0.6s forwards;pointer-events:none;`;
+        label.style.position = 'relative';
+        label.appendChild(burst);
+        setTimeout(() => burst.remove(), 600);
+      }
+    });
+  });
+
+  // Add fadeOut keyframe
+  const style = document.createElement('style');
+  style.textContent = '@keyframes fadeOut { from { opacity:1; transform:translateY(-50%) scale(1.3); } to { opacity:0; transform:translateY(-150%) scale(0.7); } }';
+  document.head.appendChild(style);
+
+  function handleSubmit() {
+    const unanswered = [];
+    for (let i = 1; i <= totalQuestions; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) unanswered.push(i);
+    }
+    if (unanswered.length > 0) {
+      const card = document.querySelectorAll('.question-card')[unanswered[0] - 1];
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.transition = 'box-shadow 0.3s';
+      card.style.boxShadow = '0 0 0 2px var(--pink), 0 8px 30px rgba(255,77,141,0.3)';
+      setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+      return;
+    }
+
+   //CODE
+// After validation passes, collect answers
+  const answers = [];
+  for (let i = 1; i <= totalQuestions; i++) {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    answers.push(selected ? selected.value : 'Not answered');
+  }
+  
+  // Send to Google Sheets
+  fetch('https://script.google.com/macros/s/AKfycbzIFJVCXNHGPvvhan-Jm5cx0AAdx5FpPcz3RfSigtLwamA_oCc3-ewHB6ap3lMZLU91/exec', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: 'ANDREW.IYER@GMAIL.COM', // or get from an input field
+      answers: answers
+    })
+  });
+//CODE
+
+    // Hide everything
+    document.querySelectorAll('.question-card, .intro-card, #submit-section').forEach((el, i) => {
+      setTimeout(() => {
+        el.style.transition = 'opacity 0.3s, transform 0.3s';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-10px)';
+        setTimeout(() => { el.style.display = 'none'; }, 300);
+      }, i * 20);
+    });
+
+    setTimeout(() => {
+      const comp = document.getElementById('completion-card');
+      comp.style.display = 'block';
+      fill.style.width = '100%';
+      emoji.textContent = '💑';
+      comp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 600);
+  }
+</script>
+</body>
+</html>
