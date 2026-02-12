@@ -165,16 +165,9 @@
 
   /* generic backdrop blur thing */
   .question-card, .intro-card, .completion, .data-card  {
-    background: rgba(36, 13, 61, 0.85); /* More opaque fallback */
     backdrop-filter: blur(12px);
   }
   
-  /* Modern browsers get the blur, old ones get solid background */
-  @supports (backdrop-filter: blur(12px)) {
-    .question-card, .intro-card, .completion, .data-card  {
-      background: var(--card); /* Keep transparent on modern browsers */
-    }
-  }
   /* QUESTIONNAIRE WRAPPER */
   .questionnaire {
     position: relative;
@@ -811,6 +804,32 @@
   const emoji = document.getElementById('progress-emoji');
   const progressEmojis = ['🤍','🩷','💗','💖','💕','💝','💘','❤️‍🔥','💞','💑','✨'];
   const totalQuestions = 10;
+
+  // for old phones...
+  function isOldIOS() {
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
+    if (!isIOS) return false;
+    
+    const match = ua.match(/OS (\d+)_/);
+    if (match && match[1]) {
+      const version = parseInt(match[1]);
+      return version <= 14;
+    }
+    return false;
+  }
+  
+  // Apply styles based on iOS version
+  if (isOldIOS()) {
+    const style = document.createElement('style');
+    style.textContent = `
+      .question-card, .intro-card, .completion {
+        background: rgba(36, 13, 61, 0.9) !important;
+        backdrop-filter: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
   function updateProgress() {
     let answered = 0;
