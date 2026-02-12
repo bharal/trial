@@ -214,7 +214,7 @@
   .intro-card p strong, .data-card p strong { color: var(--lavender); font-weight: 500; }
 
   /* email */
-  .data-card input[type="email"] {
+  .data-card input[type="email"], .data-card input[type="text"] {
   width: 100%;
   padding: 0.9rem 1rem;
   margin-top: 1.25rem;
@@ -226,17 +226,17 @@
   color: var(--text);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.data-card input[type="email"]::placeholder {
+.data-card input[type="email"], .data-card input[type="text"]::placeholder {
   color: var(--muted);
   opacity: 0.6;
 }
-.data-card input[type="email"]:focus {
+.data-card input[type="email"], .data-card input[type="text"]:focus {
   outline: none;
   border-color: var(--pink);
   background: rgba(255,77,141,0.05);
   box-shadow: 0 0 0 1px rgba(255,77,141,0.2);
 }
-.data-card input[type="email"]:hover {
+.data-card input[type="email"], .data-card input[type="text"]:hover {
   border-color: rgba(255,77,141,0.3);
 }
 
@@ -856,10 +856,10 @@
     const subject = document.getElementById('subject').value;
     
     if (!email || !email.includes('@') || !name || !uni || !gradYear || !subject ) {
-      const inputBlock = document.getElementById('data-card');
+      const inputBlock = document.querySelector('.data-card');
       inputBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
       inputBlock.style.border = '2px solid var(--pink)';
-      setTimeout(() => { emailInput.style.border = ''; }, 2000);
+      setTimeout(() => { inputBlock.style.border = ''; }, 2000);
       return;
     }
     
