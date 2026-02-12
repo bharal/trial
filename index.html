@@ -549,6 +549,7 @@
     <span class="intro-icon">💌</span>
     <h2>Let's get <em>personal</em>, shall we?</h2>
     <p>No fluff, no vague vibes — just <strong>15 science-backed questions</strong> designed to figure out what makes you tick (and who you'd tick with). Each question has real research behind it, because love is too important to leave to a cheesy algorithm. Answer honestly. Your soulmate is probably doing this right now too. 👀</p>
+    <input type="email" id="user-email" placeholder="Your email address" required>
   </div>
 
   <!-- Q1 -->
@@ -811,6 +812,14 @@
       return;
     }
 
+    if (!email || !email.includes('@')) {
+      const emailInput = document.getElementById('user-email');
+      emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      emailInput.style.border = '2px solid var(--pink)';
+      setTimeout(() => { emailInput.style.border = ''; }, 2000);
+      return;
+    }
+    
    //CODE
 // After validation passes, collect answers
   const answers = [];
@@ -823,7 +832,7 @@
   fetch('https://script.google.com/macros/s/AKfycbzIFJVCXNHGPvvhan-Jm5cx0AAdx5FpPcz3RfSigtLwamA_oCc3-ewHB6ap3lMZLU91/exec', {
     method: 'POST',
     body: JSON.stringify({
-      name: 'ANDREW.IYER@GMAIL.COM', // or get from an input field
+      name: email, // or get from an input field
       answers: answers
     })
   });
