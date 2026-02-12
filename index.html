@@ -163,6 +163,18 @@
     filter: drop-shadow(0 0 6px rgba(255,77,141,0.8));
   }
 
+  /* generic backdrop blur thing */
+  .question-card, .intro-card, .completion, .data-card  {
+    background: rgba(36, 13, 61, 0.85); /* More opaque fallback */
+    backdrop-filter: blur(12px);
+  }
+  
+  /* Modern browsers get the blur, old ones get solid background */
+  @supports (backdrop-filter: blur(12px)) {
+    .question-card, .intro-card, .completion, .data-card  {
+      background: var(--card); /* Keep transparent on modern browsers */
+    }
+  }
   /* QUESTIONNAIRE WRAPPER */
   .questionnaire {
     position: relative;
@@ -179,7 +191,6 @@
     border-radius: 16px;
     padding: 2.5rem;
     margin-bottom: 2rem;
-    backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
     animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -247,7 +258,6 @@
     border-radius: 16px;
     padding: 1.75rem 2rem;
     margin-bottom: 1.25rem;
-    backdrop-filter: blur(12px);
     opacity: 0;
     transform: translateY(20px) scale(0.98);
     animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -499,7 +509,6 @@
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: 16px;
-    backdrop-filter: blur(12px);
     animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
   .completion-hearts {
@@ -777,7 +786,7 @@
     <span class="completion-hearts">💘</span>
     <h2>You're officially in the running.</h2>
     <p>Your love profile is complete and looking absolutely gorgeous, if we do say so. Our team will now match your answers against the other hopeless romantics in our database. We'll be in touch very soon. 💌</p>
-    <span class="completion-badge">✨ Profile complete — 30 / 30</span>
+    <span class="completion-badge">✨ Profile complete — 10 / 10</span>
   </div>
 
 </div>
