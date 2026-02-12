@@ -868,7 +868,14 @@
     const answers = [];
     for (let i = 1; i <= totalQuestions; i++) {
       const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      answers.push(selected ? selected.value : 'Not answered');
+       if (selected) {
+        // Find the option-text span within the same label
+        const optionText = selected.closest('.option-label')?.querySelector('.option-text')?.textContent 
+                        || selected.value;
+        answers.push(optionText);
+      } else {
+        answers.push('Not answered');
+      }
     }
     
     // Send to Google Sheets
