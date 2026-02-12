@@ -806,33 +806,6 @@
   const progressEmojis = ['🤍','🩷','💗','💖','💕','💝','💘','❤️‍🔥','💞','💑','✨'];
   const totalQuestions = 10;
 
-  // for old phones...
-  function isOldIOS() {
-    const ua = navigator.userAgent;
-    const isIOS = /iPhone|iPad|iPod/.test(ua);
-    //alert(ua);
-    if (!isIOS) return false;
-    
-    const match = ua.match(/OS (\d+)_/);
-    if (match && match[1]) {
-      const version = parseInt(match[1]);
-      return version <= 14;
-    }
-    return false;
-  }
-  
-  // Apply styles based on iOS version
-  if (isOldIOS()) {
-    const style = document.createElement('style');
-    style.textContent = `
-      .question-card, .intro-card, .completion {
-        background: rgba(36, 13, 61, 0.9) !important;
-        backdrop-filter: none !important;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
   function updateProgress() {
     let answered = 0;
     for (let i = 1; i <= totalQuestions; i++) {
