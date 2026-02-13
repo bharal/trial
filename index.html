@@ -882,6 +882,14 @@ By submitting this form, you acknowledge and agree to have your data processed s
   const progressEmojis = ['🤍','🩷','💗','💖','💕','💝','💘','❤️‍🔥','💞','💑','✨'];
   const totalQuestions = 10;
 
+  function scrollToInputs(){
+      const inputBlock = document.querySelector('.data-card');
+      inputBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      inputBlock.style.border = '2px solid var(--pink)';
+      setTimeout(() => { inputBlock.style.border = ''; }, 2000);
+      return;
+  }
+
   function updateProgress() {
     let answered = 0;
     for (let i = 1; i <= totalQuestions; i++) {
@@ -925,7 +933,7 @@ By submitting this form, you acknowledge and agree to have your data processed s
       card.style.transition = 'box-shadow 0.3s';
       card.style.boxShadow = '0 0 0 2px var(--pink), 0 8px 30px rgba(255,77,141,0.3)';
       setTimeout(() => { card.style.boxShadow = ''; }, 2000);
-      return;
+      //return;
     }
 
     const firstName = document.getElementById('firstName').value;
@@ -942,15 +950,19 @@ By submitting this form, you acknowledge and agree to have your data processed s
     const uni = document.getElementById('university').value;
     const fiveWords = document.getElementById('fiveWords').value;
     
-    
-    if (!email || !email.includes('@') || !name || !uni || !gradYear || !subject ) {
-      const inputBlock = document.querySelector('.data-card');
-      inputBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      inputBlock.style.border = '2px solid var(--pink)';
-      setTimeout(() => { inputBlock.style.border = ''; }, 2000);
+    if (!email || !email.includes('@') || !firstName || !lastName || !age || !ageRange || !location || !profession || !gender || !genderPref  || !degree || !uni || !fiveWords) {
+      scrollToInputs();
       return;
     }
-    
+
+    if (email !== emailConfirm){
+      scrollToInputs();
+      return;
+    }
+    if (fiveWords.trim().split(/\s+/).length > 7){
+      scrollToInputs();
+      return;
+    }
     //CODE
     // After validation passes, collect answers
     const answers = [];
