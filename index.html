@@ -802,7 +802,7 @@
       <span class="q-number">013</span>
       <span class="q-science-tag">Help Cupid's aim</span>
       <div class="question-text">Is there any extra information you would like to share with us to help Cupid's aim?</div>
-        <input type="text" id="Q13" placeholder="Anything else?" required>
+        <input type="text" name="q13" placeholder="Anything else?" required>
     </div>
   </div>
 
@@ -1017,7 +1017,7 @@ By submitting this form, you acknowledge and agree to have your data processed s
         const optionText = selected.closest('.option-label')?.querySelector('.option-text')?.textContent 
                         || selected.value;
         answers.push(optionText);
-      } else if ( document.querySelector(`input[name="q${i}"]`).value != null ){
+      } else if ( document.querySelector(`input[name="q${i}"]`) != null ){
        answers.push( document.querySelector(`input[name="q${i}"]`).value );
       } else  {
         answers.push('Not answered');
