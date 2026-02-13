@@ -587,7 +587,7 @@
     <input type="text" id="firstName" placeholder="First name" required>
     <input type="text" id="surname" placeholder="Surname" required>
     <input type="text" id="email" placeholder="Your email address" required>
-    <input type="text" id="emailConfirm" placeholder="Just to be sure..." required>
+    <input type="text" id="emailConfirm" placeholder="Just to be sure, please confirm your email address" required>
     <input type="text" id="age" placeholder="Your Age" required>
     <input type="text" id="ageRange" placeholder="What age range are you open to?" required>
     <input type="text" id="location" placeholder="Location (eg. city)" required>
@@ -880,10 +880,12 @@ By submitting this form, you acknowledge and agree to have your data processed s
   const fill = document.getElementById('progress-fill');
   const emoji = document.getElementById('progress-emoji');
   const progressEmojis = ['🤍','🩷','💗','💖','💕','💝','💘','❤️‍🔥','💞','💑','✨'];
-  const totalQuestions = 10;
+  const totalQuestions = 14;
 
-  function scrollToInputs(){
+  function scrollToInputs(msg){
       const inputBlock = document.querySelector('.data-card');
+      const header = inputBlock.querySelector('h2');
+      header.insertAdjacentHTML('afterend', `<p><em>${msg}<em></p>`);
       inputBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
       inputBlock.style.border = '2px solid var(--pink)';
       setTimeout(() => { inputBlock.style.border = ''; }, 2000);
@@ -951,16 +953,16 @@ By submitting this form, you acknowledge and agree to have your data processed s
     const fiveWords = document.getElementById('fiveWords').value;
     
     if (!email || !email.includes('@') || !firstName || !lastName || !age || !ageRange || !location || !profession || !gender || !genderPref  || !degree || !uni || !fiveWords) {
-      scrollToInputs();
+      scrollToInputs("Please ensure all fields are filled in");
       return;
     }
 
     if (email !== emailConfirm){
-      scrollToInputs();
+      scrollToInputs("The emails do not match");
       return;
     }
     if (fiveWords.trim().split(/\s+/).length > 7){
-      scrollToInputs();
+      scrollToInputs("Just five words please");
       return;
     }
     //CODE
@@ -979,7 +981,7 @@ By submitting this form, you acknowledge and agree to have your data processed s
     }
     
     // Send to Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbzgqQfDefSnk_uSgY9GksuvQknLaqG5NCcDogocMf1M5c2QvKeSmUuS6RU_BfOsZWbn/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzGdjswOXEUjk8MPBaDGiq2JOI9AUhSOIwNT1xZur4wccfZTjnkWQkkJ1NQ-7WkSUgc/exec', {
       method: 'POST',
       body: JSON.stringify({
         firstName,
