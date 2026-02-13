@@ -987,13 +987,13 @@ By submitting this form, you acknowledge and agree to have your data processed s
       scrollToInputs("The emails do not match", ['email', 'emailConfirm'] );
       failed = true;
     }
-    alert(fiveWords.trim().split(/\s+/).length);
-    if (fiveWords.trim().split(/\s+/).length > 7, ['fiveWords'] ){
-      scrollToInputs("Please only use five words to describe yourself");
+   
+    if (fiveWords.trim().split(/\s+/).length > 7){
+      scrollToInputs("Please only use five words to describe yourself", ['fiveWords'] );
       failed = true;
     }
-    if (fiveWords.trim().split(/\s+/).length < 5, ['fiveWords'] ){
-      scrollToInputs("Please enter five words to describe yourself");
+    if (fiveWords.trim().split(/\s+/).length < 5){
+      scrollToInputs("Please enter five words to describe yourself", ['fiveWords'] );
       failed = true;
     }
     if (failed){
