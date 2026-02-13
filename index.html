@@ -583,19 +583,20 @@
   </div>
 
   <div class="data-card">
-    <h2>So, <em>who</em>, are you?</h2>
-    <input type="text" id="First name" placeholder="First name" required>
-    <input type="text" id="Surname" placeholder="Surname" required>
-    <input type="text" id="Age" placeholder="Your Age" required>
-    <input type="text" id="Age Choice" placeholder="Which age range are you open to?" required>
-    <input type="text" id="Location" placeholder="Location (eg. city/location)" required>
-    <input type="text" id="Profession" placeholder="Profession" required>
+    <h2>So. <em>Who</em> are you?</h2>
+    <input type="text" id="firstName" placeholder="First name" required>
+    <input type="text" id="surname" placeholder="Surname" required>
     <input type="text" id="email" placeholder="Your email address" required>
-    <input type="text" id="Gender" placeholder="Your Gender" required>
-    <input type="text" id="Gender Choice" placeholder="Which gender(s) are you attracted to?" required>
-    <input type="text" id="Degree(s)" placeholder="Degree(s)" required>
-    <input type="text" id="University" placeholder="University" required>
-    <input type="text" id="Describe yourself in 5 words" placeholder="Describe yourself in 5 words" required>
+    <input type="text" id="emailConfirm" placeholder="Just to be sure..." required>
+    <input type="text" id="age" placeholder="Your Age" required>
+    <input type="text" id="ageRange" placeholder="What age range are you open to?" required>
+    <input type="text" id="location" placeholder="Location (eg. city)" required>
+    <input type="text" id="profession" placeholder="Profession" required>
+    <input type="text" id="gender" placeholder="Your Gender" required>
+    <input type="text" id="genderPref" placeholder="Which gender(s) are you attracted to?" required>
+    <input type="text" id="degree" placeholder="Degree(s)" required>
+    <input type="text" id="uni" placeholder="University" required>
+    <input type="text" id="fiveWords" placeholder="Describe yourself in 5 words" required>
   </div>
 
   <!-- Q1 -->
@@ -927,11 +928,20 @@ By submitting this form, you acknowledge and agree to have your data processed s
       return;
     }
 
-    const name = document.getElementById('name').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('surname').value;
     const email = document.getElementById('email').value;
+    const emailConfirm = document.getElementById('emailConfirm').value;
+    const age = document.getElementById('age').value;
+    const ageRange = document.getElementById('ageRange').value;
+    const location = document.getElementById('location').value;
+    const profession = document.getElementById('profession').value;
+    const gender = document.getElementById('gender').value;
+    const genderPref = document.getElementById('genderPref').value;
+    const degree = document.getElementById('degree').value;
     const uni = document.getElementById('university').value;
-    const gradYear = document.getElementById('gradYear').value;
-    const subject = document.getElementById('subject').value;
+    const fiveWords = document.getElementById('fiveWords').value;
+    
     
     if (!email || !email.includes('@') || !name || !uni || !gradYear || !subject ) {
       const inputBlock = document.querySelector('.data-card');
