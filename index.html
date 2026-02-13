@@ -882,18 +882,22 @@ By submitting this form, you acknowledge and agree to have your data processed s
   const progressEmojis = ['🤍','🩷','💗','💖','💕','💝','💘','❤️‍🔥','💞','💑','✨'];
   const totalQuestions = 14;
 
-  function scrollToInputs(msg){
+  function scrollToInputs(msg, highLights){
       const inputBlock = document.querySelector('.data-card');
       const header = inputBlock.querySelector('h2');
       header.insertAdjacentHTML('afterend', `<p class='errorMsg'><em>${msg}<em></p>`);
       inputBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
       inputBlock.style.border = '2px solid var(--pink)';
+      highLights.forEach(fieldId => {
+        document.getElementById(fieldId).style.border = '2px solid var(--pink)';
+      });
       setTimeout(() => { inputBlock.style.border = ''; }, 2000);
       return;
   }
 
   function deleteErrors(){
     document.querySelectorAll('p.errorMsg').forEach(el => el.remove());
+    document.querySelectorAll('.data-card *').forEach(el => el.style.border = '');
   }
 
   function updateProgress() {
@@ -960,17 +964,36 @@ By submitting this form, you acknowledge and agree to have your data processed s
     const fiveWords = document.getElementById('fiveWords').value;
 
     var failed = false;
-    if (!email || !email.includes('@') || !firstName || !lastName || !age || !ageRange || !location || !profession || !gender || !genderPref  || !degree || !uni || !fiveWords) {
-      scrollToInputs("Please ensure all fields are filled in");
+    const emptyFields = [];
+    
+    if (!email) emptyFields.push('email');
+    if (!email || !email.includes('@')) emptyFields.push('email format');
+    if (!firstName) emptyFields.push('firstName');
+    if (!lastName) emptyFields.push('lastName');
+    if (!age) emptyFields.push('age');
+    if (!ageRange) emptyFields.push('ageRange');
+    if (!location) emptyFields.push('location');
+    if (!profession) emptyFields.push('profession');
+    if (!gender) emptyFields.push('gender');
+    if (!genderPref) emptyFields.push('genderPref');
+    if (!degree) emptyFields.push('degree');
+    if (!uni) emptyFields.push('uni');
+    if (!fiveWords) emptyFields.push('fiveWords');
+    if (emptyFields.length > 0) {
+      scrollToInputs("Please ensure all fields are filled in", emptyFields );
       failed = true;
     }
 
     if (email !== emailConfirm){
-      scrollToInputs("The emails do not match");
+      scrollToInputs("The emails do not match", ['email', 'emailConfirmed'] );
       failed = true;
     }
-    if (fiveWords.trim().split(/\s+/).length > 7){
-      scrollToInputs("Just five words please");
+    if (fiveWords.trim().split(/\s+/).length > 7, ['fiveWords'] ){
+      scrollToInputs("Please only use five words to describe yourself");
+      failed = true;
+    }
+    if (fiveWords.trim().split(/\s+/).length < 5, ['fiveWords'] ){
+      scrollToInputs("Please enter five words to describe yourself");
       failed = true;
     }
     if (failed){
