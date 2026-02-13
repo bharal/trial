@@ -219,7 +219,7 @@
   .intro-card p strong, .data-card p strong { color: var(--lavender); font-weight: 500; }
 
   /* email */
-  .data-card input[type="email"], .data-card input[type="text"] {
+  .data-card input[type="email"], .data-card input[type="text"], .question-card input[type="text"] {
   width: 100%;
   padding: 0.9rem 1rem;
   margin-top: 1.25rem;
@@ -689,7 +689,7 @@
     </div>
     <div class="question-text">What is something that you are really passionate about? (it could be a cause, an intellectual area of interest, a hobby…)</div>
     <div class="question-science">Aron's Self-Expansion Model holds that sustained attraction depends not just on shared interests, but on a partner's capacity to expand your sense of self — through their knowledge, perspectives, and enthusiasms. Someone who can speak with genuine passion about what drives them is already telling you something essential: that they have a self worth expanding into.</div>
-      <input type="text" id="99" placeholder="My passion is..." required>
+      <input type="text" name="q6" placeholder="My passion is..." required>
   </div>
 
   <!-- Q7 SCALE -->
@@ -736,7 +736,9 @@
     <div class="q-header">
       <span class="q-number">09</span>
       <span class="q-science-tag">Question Time</span>
-              <input type="text" id="If you could ask a question to everyone at the event, what would it be?" placeholder="If you could ask a question to everyone at the event, what would it be?" required>
+      <div class="question-text">If you could ask a question to everyone at the event, what would it be?" </div>
+      <div class="question-science">Please fill in</div>
+        <input type="text" name="q9" placeholder="What would you ask everyone?" required>
     </div>
   </div>
 
@@ -799,7 +801,8 @@
     <div class="q-header">
       <span class="q-number">013</span>
       <span class="q-science-tag">Help Cupid's aim</span>
-              <input type="text" id="Is there any extra information you would like to share with us to help Cupid's aim?" placeholder="Is there any extra information you would like to share with us to help Cupid's aim?" required>
+      <div class="question-text">Is there any extra information you would like to share with us to help Cupid's aim?</div>
+        <input type="text" id="Q13" placeholder="Anything else?" required>
     </div>
   </div>
 
@@ -1014,7 +1017,9 @@ By submitting this form, you acknowledge and agree to have your data processed s
         const optionText = selected.closest('.option-label')?.querySelector('.option-text')?.textContent 
                         || selected.value;
         answers.push(optionText);
-      } else {
+      } else if (document.querySelector(`input[name="q${i}"].value`) != null){
+       answers.push(document.querySelector(`input[name="q${i}"].value`));
+      } else  {
         answers.push('Not answered');
       }
     }
