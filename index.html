@@ -967,7 +967,6 @@ By submitting this form, you acknowledge and agree to have your data processed s
     const emptyFields = [];
     
     if (!email) emptyFields.push('email');
-    if (!email || !email.includes('@')) emptyFields.push('email format');
     if (!firstName) emptyFields.push('firstName');
     if (!lastName) emptyFields.push('lastName');
     if (!age) emptyFields.push('age');
@@ -985,9 +984,10 @@ By submitting this form, you acknowledge and agree to have your data processed s
     }
 
     if (email !== emailConfirm){
-      scrollToInputs("The emails do not match", ['email', 'emailConfirmed'] );
+      scrollToInputs("The emails do not match", ['email', 'emailConfirm'] );
       failed = true;
     }
+    alert(fiveWords.trim().split(/\s+/).length);
     if (fiveWords.trim().split(/\s+/).length > 7, ['fiveWords'] ){
       scrollToInputs("Please only use five words to describe yourself");
       failed = true;
