@@ -983,6 +983,11 @@ By submitting this form, you acknowledge and agree to have your data processed s
       failed = true;
     }
 
+    if (!email.includes('@')){
+      scrollToInputs("Please check the email is correct", ['email'] );
+      failed = true;
+    }
+
     if (email !== emailConfirm){
       scrollToInputs("The emails do not match", ['email', 'emailConfirm'] );
       failed = true;
