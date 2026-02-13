@@ -1017,8 +1017,8 @@ By submitting this form, you acknowledge and agree to have your data processed s
         const optionText = selected.closest('.option-label')?.querySelector('.option-text')?.textContent 
                         || selected.value;
         answers.push(optionText);
-      } else if (document.querySelector(`input[name="q${i}"]`).value != null){
-       answers.push(document.querySelector(`input[name="q${i}"]`)value );
+      } else if ( document.querySelector(`input[name="q${i}"]`).value != null ){
+       answers.push( document.querySelector(`input[name="q${i}"]`).value );
       } else  {
         answers.push('Not answered');
       }
