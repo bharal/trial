@@ -885,11 +885,15 @@ By submitting this form, you acknowledge and agree to have your data processed s
   function scrollToInputs(msg){
       const inputBlock = document.querySelector('.data-card');
       const header = inputBlock.querySelector('h2');
-      header.insertAdjacentHTML('afterend', `<p><em>${msg}<em></p>`);
+      header.insertAdjacentHTML('afterend', `<p class='errorMsg'><em>${msg}<em></p>`);
       inputBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
       inputBlock.style.border = '2px solid var(--pink)';
       setTimeout(() => { inputBlock.style.border = ''; }, 2000);
       return;
+  }
+
+  function deleteErrors(){
+    document.querySelectorAll('p.errorMsg').forEach(el => el.remove());
   }
 
   function updateProgress() {
@@ -925,6 +929,9 @@ By submitting this form, you acknowledge and agree to have your data processed s
   document.head.appendChild(style);
 
   function handleSubmit() {
+    //first we need to clear any errors...
+    deleteErrors();
+    
     const unanswered = [];
     for (let i = 1; i <= totalQuestions; i++) {
       if (!document.querySelector(`input[name="q${i}"]:checked`)) unanswered.push(i);
