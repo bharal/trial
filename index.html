@@ -951,18 +951,22 @@ By submitting this form, you acknowledge and agree to have your data processed s
     const degree = document.getElementById('degree').value;
     const uni = document.getElementById('uni').value;
     const fiveWords = document.getElementById('fiveWords').value;
-    
+
+    var failed = false;
     if (!email || !email.includes('@') || !firstName || !lastName || !age || !ageRange || !location || !profession || !gender || !genderPref  || !degree || !uni || !fiveWords) {
       scrollToInputs("Please ensure all fields are filled in");
-      return;
+      failed = true;
     }
 
     if (email !== emailConfirm){
       scrollToInputs("The emails do not match");
-      return;
+      failed = true;
     }
     if (fiveWords.trim().split(/\s+/).length > 7){
       scrollToInputs("Just five words please");
+      failed = true;
+    }
+    if (failed){
       return;
     }
     //CODE
