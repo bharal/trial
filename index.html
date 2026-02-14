@@ -815,10 +815,10 @@
     <div class="question-text">If you were a cocktail, which one would you be?.</div>
     <div class="question-science">Litzinger & Gordon (2005) found that sexual satisfaction and emotional closeness are reciprocally linked - and that couples who openly discuss their needs report dramatically higher long-term intimacy scores.  ) </div>
     <div class="options">
-      <label class="option-label"><input type="radio" name="q12" value="a"><span class="option-emoji">🫣</span><span class="option-text">Demure</span></label>
-      <label class="option-label"><input type="radio" name="q12" value="b"><span class="option-emoji">😘</span><span class="option-text">Cupid's Kiss</span></label>
-      <label class="option-label"><input type="radio" name="q12" value="c"><span class="option-emoji">💋</span><span class="option-text">Flirtini</span></label>
-      <label class="option-label"><input type="radio" name="q12" value="d"><span class="option-emoji">🔥</span><span class="option-text">Between the sheets</span></label>
+      <label class="option-label"><input type="radio" name="q14" value="a"><span class="option-emoji">🫣</span><span class="option-text">Demure</span></label>
+      <label class="option-label"><input type="radio" name="q14" value="b"><span class="option-emoji">😘</span><span class="option-text">Cupid's Kiss</span></label>
+      <label class="option-label"><input type="radio" name="q14" value="c"><span class="option-emoji">💋</span><span class="option-text">Flirtini</span></label>
+      <label class="option-label"><input type="radio" name="q14" value="d"><span class="option-emoji">🔥</span><span class="option-text">Between the sheets</span></label>
     </div>
   </div>
 
@@ -941,9 +941,17 @@ By submitting this form, you acknowledge and agree to have your data processed s
     
     const unanswered = [];
     for (let i = 1; i <= totalQuestions; i++) {
-      if (!document.querySelector(`input[name="q${i}"]:checked`)) unanswered.push(i);
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+        if ( document.querySelector(`input[name="q${i}"]`).type === "text" ) {
+          if( !document.querySelector(`input[name="q${i}"]`).value){
+            unanswered.push(i);
+          }
+        } else {
+          unanswered.push(i);
+        }
+      }
     }
-    if (false) {
+    if (unanswered.length > 0) {
       const card = document.querySelectorAll('.question-card')[unanswered[0] - 1];
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       card.style.transition = 'box-shadow 0.3s';
@@ -1017,8 +1025,8 @@ By submitting this form, you acknowledge and agree to have your data processed s
         const optionText = selected.closest('.option-label')?.querySelector('.option-text')?.textContent 
                         || selected.value;
         answers.push(optionText);
-      } else if ( document.querySelector(`input[name="q${i}"]`) != null ){
-       answers.push( document.querySelector(`input[name="q${i}"]`).value );
+      } else if ( document.querySelector(`input[name="q${i}"]`).type === 'text' ){
+         answers.push( document.querySelector(`input[name="q${i}"]`).value );
       } else  {
         answers.push('Not answered');
       }
