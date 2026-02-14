@@ -318,6 +318,17 @@
     color: var(--text);
     margin-bottom: 0.5rem;
   }
+  .footer-legal {
+    font-size: 0.65rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0 auto 1.25rem auto;
+    padding: 0.65rem 0.9rem;
+    background: rgba(192,132,252,0.05);
+    border-left: 2px solid rgba(192,132,252,0.3);
+    border-radius: 0 6px 6px 0;
+    width: 70%
+  }
   .question-science {
     font-size: 0.78rem;
     color: var(--muted);
@@ -427,7 +438,7 @@
     font-size: 0.7rem;
     color: var(--muted);
     margin-bottom: 0.6rem;
-    font-style: italic;
+    font-style: normal;
   }
   .scale-options { display: flex; gap: 0.4rem; }
   .scale-option { flex: 1; }
@@ -708,7 +719,7 @@
     <div class="question-text">Career ambition: where are you on the scale right now?</div>
     <div class="question-science">Becker & Moen (1999) showed that mismatched ambition — particularly around hours, relocation, and travel — quietly becomes one of the biggest sources of friction for professional couples in their 30s and 40s.</div>
     <div class="scale-container">
-      <div class="scale-labels"><span>😊 Happy where I am</span><span>||</span><span> Wanting more 💪</span></div>
+      <div class="scale-labels"><span>😊 <em>Happy where I am</em></span><span>|</span><span> <em>Wanting more</em> 💪</span></div>
       <div class="scale-options">
         <div class="scale-option"><input type="radio" name="q7" id="q7-1" value="1"><label for="q7-1">1</label></div>
         <div class="scale-option"><input type="radio" name="q7" id="q7-2" value="2"><label for="q7-2">2</label></div>
@@ -758,7 +769,7 @@
     <div class="question-text">How much of a "yes, and?" person are you in life?</div>
     <div class="question-science">Openness to Experience (Big Five) predicts whether two people grow in the same direction over time. High-openness and low-openness partners often look like different species by year five.</div>
     <div class="scale-container">
-      <div class="scale-labels"><span>🏡 My routine is my love language</span><span>🌍 I said yes before you finished the sentence</span></div>
+      <div class="scale-labels"><span>🏡 <em>My routine is my love language</em></span> <span>|</span>  <span> <em>I said yes before you finished the sentence</em> 🌍</span></div>
       <div class="scale-options">
         <div class="scale-option"><input type="radio" name="q10" id="q10-1" value="1"><label for="q10-1">1</label></div>
         <div class="scale-option"><input type="radio" name="q10" id="q10-2" value="2"><label for="q10-2">2</label></div>
@@ -836,7 +847,7 @@
     <button class="submit-btn" onclick="handleSubmit()">
       <span>💘 Find My Match</span>
     </button>
-    <div class="question-science">Thank you for your interest in "Cupid's Encore - The Après Valentines Event"! 
+    <div class="footer-legal">Thank you for your interest in "Cupid's Encore - The Après Valentines Event"! 
 
 This information will be used exclusively to help identify potential “matches”.
 
