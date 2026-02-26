@@ -940,14 +940,8 @@ By submitting this form, you acknowledge and agree to have your data processed s
       updateProgress();
       // Mini heart burst on selection
       const label = input.closest('.option-label') || input.closest('.scale-option');
-      if (label) {
-        const burst = document.createElement('span');
-        burst.textContent = '💗';
-        burst.style.cssText = `position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:0.9rem;animation:fadeOut 0.6s forwards;pointer-events:none;`;
-        label.style.position = 'relative';
-        label.appendChild(burst);
-        setTimeout(() => burst.remove(), 600);
-      }
+      //the little heart on click. let's remove it here. 
+      
     });
   });
 
